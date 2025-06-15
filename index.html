@@ -23,7 +23,7 @@
       font-size: 24px;
       user-select: none;
     }
-    .auth-buttons a, .balance-box button {
+    .auth-buttons a {
       background-color: gold;
       border: none;
       color: black;
@@ -39,96 +39,15 @@
       display: flex;
       align-items: center;
     }
-    .balance-box {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    #logout-popup {
-      display: none;
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: black;
-      border: 2px solid gold;
-      padding: 20px;
-      color: gold;
-      z-index: 100;
-      border-radius: 10px;
-      text-align: center;
-      width: 250px;
-    }
-    #logout-popup button {
-      margin: 10px 10px 0 10px;
-    }
   </style>
 </head>
 <body>
   <header>
     <div>247BET</div>
-    <div class="auth-buttons" id="auth-buttons">
+    <div class="auth-buttons">
       <a href="login.html">Login</a>
       <a href="register.html">Register</a>
     </div>
   </header>
-
-  <!-- Hero container placeholder -->
-  <main id="hero-container" style="padding: 20px; text-align:center; color: gold;">
-    <!-- You said you want to add hero later -->
-    <h2>Welcome to 247BET - Your Trusted Betting Platform</h2>
-  </main>
-
-  <div id="logout-popup">
-    <div>Are you sure you want to log out?</div>
-    <button onclick="logout()">Confirm</button>
-    <button onclick="hideLogoutPopup()">Cancel</button>
-  </div>
-
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-
-    // Show logout popup
-    function showLogoutPopup() {
-      document.getElementById('logout-popup').style.display = 'block';
-    }
-    function hideLogoutPopup() {
-      document.getElementById('logout-popup').style.display = 'none';
-    }
-    function logout() {
-      localStorage.removeItem('loggedInUser');
-      location.reload();
-    }
-
-    window.onload = function() {
-      const authButtons = document.getElementById('auth-buttons');
-
-      // If Telegram user detected, greet and show balance
-      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        const user = tg.initDataUnsafe.user;
-        authButtons.innerHTML = `
-          <div class="balance-box">
-            Hello, ${user.first_name} 👋 &nbsp; Balance: $1000
-            <button id="power-btn" onclick="showLogoutPopup()">⏻</button>
-          </div>
-        `;
-        return;
-      }
-
-      // Otherwise check localStorage user (from login/register system)
-      const loggedInUser = localStorage.getItem('loggedInUser');
-      if (loggedInUser) {
-        authButtons.innerHTML = `
-          <div class="balance-box">
-            Hello, ${loggedInUser} 👋 &nbsp; Balance: $1000
-            <button id="power-btn" onclick="showLogoutPopup()">⏻</button>
-          </div>
-        `;
-      }
-    }
-  </script>
 </body>
 </html>
