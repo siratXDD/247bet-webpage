@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - 247BET</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="logo">247BET</div>
+    <div class="auth-buttons" id="auth-buttons">
+      <a href="register.html" class="btn register">Register</a>
+    </div>
+  </header>
+
+  <section class="form-container">
+    <h2>Login</h2>
+    <input type="text" id="login-username" placeholder="Username">
+    <input type="password" id="login-password" placeholder="Password">
+    <button onclick="loginUser()">Login</button>
+    <p id="login-message"></p>
+  </section>
+
+  <script src="auth.js"></script>
+</body>
+</html>
