@@ -2,23 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>247BET</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #001f13; /* dark green */
+      color: gold;
+    }
+    header {
+      background-color: black;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      color: gold;
+      font-weight: bold;
+      font-size: 24px;
+      user-select: none;
+    }
+    .auth-buttons a, .balance-box button {
+      background-color: gold;
+      border: none;
+      color: black;
+      padding: 8px 14px;
+      margin-left: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+    }
+    .balance-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    #logout-popup {
+      display: none;
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: black;
+      border: 2px solid gold;
+      padding: 20px;
+      color: gold;
+      z-index: 100;
+      border-radius: 10px;
+      text-align: center;
+      width: 250px;
+    }
+    #logout-popup button {
+      margin: 10px 10px 0 10px;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="logo">247BET</div>
-    <div class="auth-buttons">
-      <a href="login.html" class="btn login">Login</a>
-      <a href="register.html" class="btn register">Register</a>
+    <div>247BET</div>
+    <div class="auth-buttons" id="auth-buttons">
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
     </div>
   </header>
 
-  <section class="hero-container">
-    <!-- You will define this part later -->
-  </section>
-  <script src="auth.js"></script>
+  <!-- Hero container placeholder -->
+  <main id="hero-container" style="padding: 20px; text-align:center; color: gold;">
+    <!-- You said you want to add hero later -->
+    <h2>Welcome to 247BET - Your Trusted Betting Platform</h2>
+  </main>
+
+  <div id="logout-popup">
+    <div>Are you sure you want to log out?</div>
+    <button onclick="logout()">Confirm</button>
+    <button onclick="hideLogoutPopup()">Cancel</button>
+  </div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    // Show logout popup
+    function showLogoutPopup() {
+      document.getElementById('logout-popup').style.display = 'block';
+    }
+    function hideLogoutPopup() {
+      document.getElementById('logout-popup').style.display = 'none';
+    }
+    function logout() {
+      localStorage.removeItem('loggedInUser');
+      location.reload();
+    }
+
+    window.onload = function() {
+      const authButtons = document.getElementById('auth-buttons');
+
+      // If Telegram user detected, greet and show balance
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        authButtons.innerHTML = `
+          <div class="balance-box">
+            Hello, ${user.first_name} 👋 &nbsp; Balance: $1000
+            <button id="power-btn" onclick="showLogoutPopup()">⏻</button>
+          </div>
+        `;
+        return;
+      }
+
+      // Otherwise check localStorage user (from login/register system)
+      const loggedInUser = localStorage.getItem('loggedInUser');
+      if (loggedInUser) {
+        authButtons.innerHTML = `
+          <div class="balance-box">
+            Hello, ${loggedInUser} 👋 &nbsp; Balance: $1000
+            <button id="power-btn" onclick="showLogoutPopup()">⏻</button>
+          </div>
+        `;
+      }
+    }
+  </script>
 </body>
 </html>
